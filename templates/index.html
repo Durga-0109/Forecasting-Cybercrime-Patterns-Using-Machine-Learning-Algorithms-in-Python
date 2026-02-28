@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard | Pattern Forecasting & Defense</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">Cyber<span>Guard</span></div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#data">Forecasting</a></li>
+            <li><a href="#ids-section">Detection Log</a></li> <li><a href="#report">Report</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="content">
+            <h1>Predicting & Protecting the Digital Frontier</h1>
+            <p>Our AI analyzes patterns to forecast threats and applies real-time filters to mitigate Swarm Attacks.</p>
+            <a href="#data" class="btn">Start Defense Engine</a>
+        </div>
+    </section>
+
+    <section id="data" class="dark-sec">
+        <h2>Security Analysis Dashboard</h2>
+        <div class="search-container">
+            <input type="text" id="cityInput" placeholder="Enter District (e.g., Chennai)">
+            <button onclick="handleSearch()" class="btn">Analyze & Protect</button>
+        </div>
+
+        <div id="resultsView" style="display:none; margin-top: 40px;">
+            <div class="stats-row">
+                <div class="stat-card"><h3>Strategic Risk</h3><p id="riskText">-</p></div>
+                <div class="stat-card"><h3>Historical Total</h3><p id="totalText">-</p></div>
+                <div class="stat-card"><h3>Primary Threat</h3><p id="issueText">-</p></div>
+            </div>
+            
+            <div class="chart-wrapper">
+                <canvas id="crimeChart"></canvas>
+            </div>
+
+            <div id="ids-section" style="margin-top: 50px; text-align: left;">
+                <h2 style="color: var(--primary); text-align: center;">🛡️ Real-time Intrusion Detection (IDS)</h2>
+                <div class="log-container">
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Source IP</th>
+                                <th>Volume</th>
+                                <th>Firewall Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logBody">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <script src="../static/script.js"></script>
+    <section id="prevention">
+    <h2>How to Stay Safe</h2>
+
+    <div class="prev-list">
+        <ul>
+            <li><strong>2FA:</strong> Enable Two-Factor Authentication on all accounts.</li>
+            <li><strong>Update:</strong> Keep your OS and software patched regularly.</li>
+            <li><strong>Privacy:</strong> Never share OTPs or passwords over phone calls.</li>
+            <li><strong>Links:</strong> Verify URLs before entering sensitive information.</li>
+        </ul>
+
+        <a 
+            id="aaa"
+            href="https://i4c.mha.gov.in/awareness.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn">
+            Awareness
+        </a>
+    </div>
+</section>
+
+
+<section id="report" class="dark-sec">
+    <h2>Report a Cyber Crime</h2>
+    <p>
+        If you are a victim, report the incident directly through the official Government of India portal.
+    </p>
+
+    <a 
+        href="https://cybercrime.gov.in/Webform/Accept.aspx"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn">
+        Report Cyber Crime (Official Portal)
+    </a>
+</section>
+
+
+<section id="about">
+    <h2>About the Project</h2>
+    <p>
+        This project utilizes <strong>Random Forest Regression</strong> and 
+        <strong>Multi-Output Forecasting</strong> to identify high-risk districts and 
+        predict specific crime volumes. By merging historical data with machine 
+        learning, we aim to assist law enforcement in resource allocation.
+    </p>
+</section>
+
+
+<footer>
+    <p>&copy; 2026 Cybercrime Forecasting Project | Data Source: NCRB</p>
+</footer>
+</body>
+</html>
