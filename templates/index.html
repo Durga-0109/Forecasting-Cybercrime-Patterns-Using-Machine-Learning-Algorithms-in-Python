@@ -1,123 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberGuard | Pattern Forecasting & Defense</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-    <nav>
+    <canvas id="particleNet"></canvas>
+
+    <nav class="glass-nav">
         <div class="logo">Cyber<span>Guard</span></div>
         <ul>
-            <li><a href="#home">Home</a></li>
+            <li><a href="#home">Terminal</a></li>
             <li><a href="#data">Forecasting</a></li>
-            <li><a href="#ids-section">Detection Log</a></li> <li><a href="#report">Report</a></li>
+            <li><a href="#ids-section">Detection Log</a></li>
+            <li><a href="#report">Report</a></li>
         </ul>
     </nav>
 
-    <section id="home" class="hero">
-        <div class="content">
-            <h1>Predicting & Protecting the Digital Frontier</h1>
-            <p>Our AI analyzes patterns to forecast threats and applies real-time filters to mitigate Swarm Attacks.</p>
-            <a href="#data" class="btn">Start Defense Engine</a>
-        </div>
-    </section>
-
-    <section id="data" class="dark-sec">
-        <h2>Security Analysis Dashboard</h2>
-        <div class="search-container">
-            <input type="text" id="cityInput" placeholder="Enter District (e.g., Chennai)">
-            <button onclick="handleSearch()" class="btn">Analyze & Protect</button>
-        </div>
-
-        <div id="resultsView" style="display:none; margin-top: 40px;">
-            <div class="stats-row">
-                <div class="stat-card"><h3>Strategic Risk</h3><p id="riskText">-</p></div>
-                <div class="stat-card"><h3>Historical Total</h3><p id="totalText">-</p></div>
-                <div class="stat-card"><h3>Primary Threat</h3><p id="issueText">-</p></div>
+    <div class="main-container">
+        <section id="home" class="hero">
+            <div class="hero-content floating">
+                <h1>Predictive <span class="highlight">IDS Defense</span> Engine</h1>
+                <p>Advanced neural forecasting & real-time Swarm Attack mitigation.</p>
+                <a href="#data" class="btn btn-glow">Initialize System</a>
             </div>
-            
-            <div class="chart-wrapper">
-                <canvas id="crimeChart"></canvas>
+        </section>
+
+        <section id="data" class="dashboard-sec">
+            <h2 class="section-title">Security Overpass Dashboard</h2>
+            <div class="search-container glass-panel">
+                <input type="text" id="cityInput" placeholder="Enter District (e.g., Chennai)">
+                <button onclick="handleSearch()" class="btn btn-action">Execute Threat Analysis</button>
             </div>
 
-            <div id="ids-section" style="margin-top: 50px; text-align: left;">
-                <h2 style="color: var(--primary); text-align: center;">🛡️ Real-time Intrusion Detection (IDS)</h2>
-                <div class="log-container">
-                    <table class="log-table">
-                        <thead>
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>Source IP</th>
-                                <th>Volume</th>
-                                <th>Firewall Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="logBody">
-                            </tbody>
-                    </table>
+            <div id="resultsView" style="display:none;" class="fade-in">
+                <div class="stats-row">
+                    <div class="stat-card glass-panel floating" style="animation-delay: 0.1s;">
+                        <h3>Strategic Risk</h3>
+                        <div class="shield-container">
+                            <svg id="idsShield" class="cyber-shield" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            <p id="riskText" class="digital-text">-</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel floating" style="animation-delay: 0.3s;">
+                        <h3>Historical Total</h3>
+                        <p id="totalText" class="digital-text counter-text">0</p>
+                    </div>
+                    <div class="stat-card glass-panel floating" style="animation-delay: 0.5s;">
+                        <h3>Primary Threat Mitigation</h3>
+                        <div id="topCrimeBadge" class="badge">
+                            <p id="issueText" class="digital-text">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-wrapper glass-panel floating" style="animation-delay: 0.7s;">
+                    <canvas id="crimeChart"></canvas>
+                </div>
+
+                <div id="ids-section" class="glass-panel floating"
+                    style="margin-top: 50px; text-align: left; animation-delay: 0.9s;">
+                    <h2 class="ids-title"><span class="pulse-dot"></span> Live IDS Mitigation Feed</h2>
+                    <div class="log-container">
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th>TIMESTAMP</th>
+                                    <th>SOURCE IP</th>
+                                    <th>VOLUME / PACKETS</th>
+                                    <th>FIREWALL ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    
+        <section id="prevention" class="glass-panel floating" style="margin: 50px 10%; animation-delay: 1.1s;">
+            <h2 class="section-title">Protocol Directives</h2>
+            <div class="prev-list">
+                <ul>
+                    <li><span class="highlight">[2FA]</span> Enforce multi-factor auth on all nodes.</li>
+                    <li><span class="highlight">[Patch]</span> Initiate rolling updates for edge servers.</li>
+                    <li><span class="highlight">[OpSec]</span> Restrict outbound data transmission.</li>
+                    <li><span class="highlight">[Verify]</span> Sanitize all incoming network payloads.</li>
+                </ul>
+                <a href="https://i4c.mha.gov.in/awareness.aspx" target="_blank" class="btn btn-action">Security
+                    Awareness</a>
+            </div>
+        </section>
 
-    <script src="../static/script.js"></script>
-    <section id="prevention">
-    <h2>How to Stay Safe</h2>
+        <section id="report" class="glass-panel floating" style="margin: 50px 10%; animation-delay: 1.3s;">
+            <h2 class="section-title">Critical Incident Reporting</h2>
+            <p>Direct uplink to external government mitigation portal available for verified victims.</p>
+            <a href="https://cybercrime.gov.in/Webform/Accept.aspx" target="_blank" class="btn btn-danger">Initiate
+                External Report</a>
+        </section>
 
-    <div class="prev-list">
-        <ul>
-            <li><strong>2FA:</strong> Enable Two-Factor Authentication on all accounts.</li>
-            <li><strong>Update:</strong> Keep your OS and software patched regularly.</li>
-            <li><strong>Privacy:</strong> Never share OTPs or passwords over phone calls.</li>
-            <li><strong>Links:</strong> Verify URLs before entering sensitive information.</li>
-        </ul>
-
-        <a 
-            id="aaa"
-            href="https://i4c.mha.gov.in/awareness.aspx"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn">
-            Awareness
-        </a>
+        <footer>
+            <p>&copy; 2026 Core Defense Systems | Data Source: NCRB Classified</p>
+        </footer>
     </div>
-</section>
 
-
-<section id="report" class="dark-sec">
-    <h2>Report a Cyber Crime</h2>
-    <p>
-        If you are a victim, report the incident directly through the official Government of India portal.
-    </p>
-
-    <a 
-        href="https://cybercrime.gov.in/Webform/Accept.aspx"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn">
-        Report Cyber Crime (Official Portal)
-    </a>
-</section>
-
-
-<section id="about">
-    <h2>About the Project</h2>
-    <p>
-        This project utilizes <strong>Random Forest Regression</strong> and 
-        <strong>Multi-Output Forecasting</strong> to identify high-risk districts and 
-        predict specific crime volumes. By merging historical data with machine 
-        learning, we aim to assist law enforcement in resource allocation.
-    </p>
-</section>
-
-
-<footer>
-    <p>&copy; 2026 Cybercrime Forecasting Project | Data Source: NCRB</p>
-</footer>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
+
 </html>

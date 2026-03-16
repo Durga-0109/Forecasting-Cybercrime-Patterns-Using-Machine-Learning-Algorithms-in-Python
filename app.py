@@ -66,7 +66,7 @@ def run_realtime_defense(district_name, risk_level):
             status = "Safe"
             
         logs.append({
-            "timestamp": datetime.now().strftime("%H:%M:%S.%f")[:-3],
+            "timestamp": datetime.now().strftime("%H:%M:%S.%f")[:-3], # type: ignore
             "ip": ip,
             "requests": count,
             "action": action,
@@ -89,7 +89,7 @@ def predict():
     dist_col = df_historical.columns[2] 
     actual_data = df_historical[df_historical[dist_col].astype(str).str.lower() == district_name.lower()]
     
-    result = {"found": False}
+    result: dict = {"found": False}
     
     if len(actual_data) > 0:
         found_real_name = actual_data[dist_col].values[0]
@@ -111,7 +111,7 @@ def predict():
             top_5 = pred_series.sort_values(ascending=False).head(5)
             
             result["pred_labels"] = [label.split('(')[0][:30] for label in top_5.index.tolist()]
-            result["pred_values"] = [round(num, 2) for num in top_5.values.tolist()]
+            result["pred_values"] = [round(float(num), 2) for num in top_5.values.tolist()] # type: ignore
 
         # Scaled Defense Logs
         result["defense_logs"] = run_realtime_defense(found_real_name, result["actual_risk"])
