@@ -120,7 +120,7 @@ async function handleSearch() {
             pred_labels: ["Phishing", "DDoS", "Malware", "Injection", "Identity Theft"],
             pred_values: [1200, 2400, 950, 1654, 800],
             defense_logs: [
-                { timestamp: new Date().toLocaleTimeString(), ip: "103.25.12.1", requests: 1542, status: "Danger", action: "BLOCKED: Blacklisted IP" },
+                { timestamp: new Date().toLocaleTimeString(), ip: "103.25.12.1", requests: 1542, status: "Danger", action: "ACCESS RESTRICTED: IP Under Cooling-Off Period" },
                 { timestamp: new Date().toLocaleTimeString(), ip: "192.168.1.45", requests: 12, status: "Safe", action: "ALLOWED: Normal Traffic" },
                 { timestamp: new Date().toLocaleTimeString(), ip: "45.77.10.5", requests: 840, status: "Warning", action: "ALERT: Swarm Attack" }
             ]

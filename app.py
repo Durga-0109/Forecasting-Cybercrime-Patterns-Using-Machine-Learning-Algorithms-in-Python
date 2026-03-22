@@ -56,7 +56,7 @@ def run_realtime_defense(district_name, risk_level):
         
         # --- THE FILTER (Log Analysis + Detection) ---
         if ip in BLACKLIST_IPS:
-            action = "❌ BLOCKED: Blacklisted IP"
+            action = "❌ ACCESS RESTRICTED: IP Under Cooling-Off Period"
             status = "Danger"
         elif count > ABNORMAL_LIMIT:
             action = "🚨 ALERT: Swarm Attack Detected"
@@ -87,12 +87,26 @@ def predict():
     district_name = data.get('district', '').strip()
 
     dist_col = df_historical.columns[2] 
-    actual_data = df_historical[df_historical[dist_col].astype(str).str.lower() == district_name.lower()]
+    search_query = district_name.lower()
+    
+    # 1. Exact Match
+    mask = df_historical[dist_col].astype(str).str.lower() == search_query
+    actual_data = df_historical[mask]
+    
+    # 2. StartsWith Match
+    if len(actual_data) == 0:
+        mask = df_historical[dist_col].astype(str).str.lower().str.startswith(search_query, na=False)
+        actual_data = df_historical[mask]
+        
+    # 3. Contains Match
+    if len(actual_data) == 0:
+        mask = df_historical[dist_col].astype(str).str.lower().str.contains(search_query, na=False)
+        actual_data = df_historical[mask]
     
     result: dict = {"found": False}
     
     if len(actual_data) > 0:
-        found_real_name = actual_data[dist_col].values[0]
+        found_real_name = str(actual_data[dist_col].values[0]).strip()
         row_idx = actual_data.index[0]
         
         result["found"] = True
@@ -103,15 +117,36 @@ def predict():
         raw_issue = str(actual_data.at[row_idx, 'Dominant_Crime_Label'])
         result["top_issue"] = raw_issue.split('(')[0].replace('Offences under', '').strip()
 
-        # ML Prediction
-        if found_real_name in le_district.classes_:
-            dist_code = le_district.transform([found_real_name])[0]
+        def get_clean_label(raw_label):
+            parts = str(raw_label).split(' - ')
+            text = parts[-2] if len(parts) >= 2 else str(raw_label)
+            return text.split('(')[0].strip()[:35]
+
+        # ML Prediction - Find closest matching class in encoder
+        matched_class = None
+        for cls in le_district.classes_:
+            if str(cls).strip().lower() == found_real_name.lower():
+                matched_class = cls
+                break
+
+        if matched_class is not None:
+            dist_code = le_district.transform([matched_class])[0]
             prediction = regressor.predict([[dist_code]])
             pred_series = pd.Series(prediction[0], index=crime_columns)
-            top_5 = pred_series.sort_values(ascending=False).head(5)
             
-            result["pred_labels"] = [label.split('(')[0][:30] for label in top_5.index.tolist()]
+            # Filter out aggregate 'Total' columns to show specific crimes
+            filtered_series = pred_series[~pred_series.index.str.lower().str.contains('total')]
+            if len(filtered_series) == 0:
+                filtered_series = pred_series
+                
+            top_5 = filtered_series.sort_values(ascending=False).head(5)
+            
+            result["pred_labels"] = [get_clean_label(label) for label in top_5.index.tolist()]
             result["pred_values"] = [round(float(num), 2) for num in top_5.values.tolist()] # type: ignore
+        else:
+            # Fallback if not in encoder
+            result["pred_labels"] = ["Data Unavailable"]
+            result["pred_values"] = [0]
 
         # Scaled Defense Logs
         result["defense_logs"] = run_realtime_defense(found_real_name, result["actual_risk"])
